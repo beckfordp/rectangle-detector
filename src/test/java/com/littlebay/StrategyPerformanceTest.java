@@ -72,14 +72,14 @@ class StrategyPerformanceTest {
     // ── Benchmark harness ────────────────────────────────────────────────────
 
     private Result benchmark(NamedStrategy ns, int[][] bitmap) {
-        RectangleFinder finder = new RectangleFinder(ns.strategy());
-        for (int i = 0; i < WARMUP_RUNS; i++) finder.find(bitmap);
+        RectangleDetector detector = new RectangleDetector(ns.strategy());
+        for (int i = 0; i < WARMUP_RUNS; i++) detector.detect(bitmap);
 
         long[] nanos = new long[MEASURED_RUNS];
         int found = 0;
         for (int i = 0; i < MEASURED_RUNS; i++) {
             long t = System.nanoTime();
-            found = finder.find(bitmap).size();
+            found = detector.detect(bitmap).size();
             nanos[i] = System.nanoTime() - t;
         }
 
@@ -99,7 +99,7 @@ class StrategyPerformanceTest {
 
         for (NamedStrategy ns : strategies) {
             results.add(benchmark(ns, scenario.bitmap()));
-            List<Rectangle> got = new RectangleFinder(ns.strategy()).find(scenario.bitmap());
+            List<Rectangle> got = new RectangleDetector(ns.strategy()).detect(scenario.bitmap());
             if (reference == null) {
                 reference = got;
             } else {

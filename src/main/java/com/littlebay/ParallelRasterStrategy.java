@@ -24,7 +24,7 @@ public class ParallelRasterStrategy extends RasterStrategy {
     }
 
     @Override
-    public List<Rectangle> find(int[][] bitmap) {
+    public List<Rectangle> detect(int[][] bitmap) {
         int rows = bitmap.length;
         int cols = bitmap[0].length;
         int bandSize = Math.max(1, (rows + threads - 1) / threads);

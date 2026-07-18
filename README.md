@@ -7,25 +7,24 @@ Finds all solid white rectangles in a binary bitmap (`0` = white, `1` = black).
 ## Questions and Answers
 * I’m interested in what they thought of it (was it easy?)
 
-Like most problems it can be both easy and difficult at the same time, depending on the detailed acceptance criteria and architectural constraints at play. There was no one to ask about 
-requirements so I made some assumptions. These assumptions are encapsulated in the tests. 
-Performance constraints, memory constraints and the size of the bitmap, sparsity or density of the expected rectangles were not indicated.
-Given this, the best implementation strategy would be a guess. The simplest strategy of course is a simple raster scan. I did
+Like many problems it is both easy and difficult at the same time, depending on the detailed acceptance criteria and architectural constraints at play. 
+There was no one to ask about requirements so I made some assumptions. These functional assumptions are encapsulated in the tests. 
+Performance constraints, memory constraints and the size of the bitmap, also the sparsity or density of the rectangles were not indicated.
+Given this, the most performant implementation strategy would be a guess at best. The simplest strategy of course is a raster scan. I did
 some research and found out that there were also other alternative strategies that might be more performant under certain circumstances.
 I decided to come up with a solution that supported multiple strategies and to benchmark each.
 
 * Can they explain their logic?
 
-The logic of the raster scan is relatively straight forward. got left to right, top to bottom through the bitmap looking for a top left pixel.
-once found thentest whether that is the start of a rectangle. Keep scanning and collecting rectangles as you go. The other strategies are described below.
-If someone else is working through it, what types of prompting would they use to be helpful without giving away the core answers?
+The logic of the raster scan is relatively straight forward. Traverse left to right, top to bottom through the bitmap looking for a top left pixel of a white shape.
+Once found then test whether that is the start of a rectangle. Keep scanning and collecting rectangles as you go. The other strategies are described below.
 
 * If someone else is working through it, what types of prompting would they use to be helpful without giving away the core answers?
 
-I would suggest they start off with a simple raster scan with two nested for loops traversing the width (x) and the height (y) of the bitmap one pixel at a time.
+I would suggest they begin with a simple raster scan with two nested for loops traversing the width (x) and the height (y) of the bitmap one pixel at a time.
 Depending on the pixel we are on we have found the top left of a rectangle, are inside a rectangle or are still searching...
-My advice would be to get this to work with the help of the tests firsts. Once working then look to refactor. I chose to replace
-looping by treating the bitmap as a stream. A neater and more readable functional solution, not initially obvious though.
+My advice would be to get this to work with the help of the tests, checking for boundary conditions. Once working then look to refactor. I chose to refactor and replace
+the nested loops by treating the bitmap as a stream. A neater and more readable functional solution, which didn't come to mind initially.
 
 ## Architecture
 
@@ -33,16 +32,16 @@ Detection is pluggable via a single interface:
 
 ```java
 public interface SearchStrategy {
-    List<Rectangle> find(int[][] bitmap);
+    List<Rectangle> detect(int[][] bitmap);
 }
 ```
 
-Use any strategy with `RectangleFinder`:
+Use any strategy with `RectangleDetector`:
 
 ```java
-List<Rectangle> rects = new RectangleFinder(new RasterStrategy()).find(bitmap);
-List<Rectangle> rects = new RectangleFinder(new HistogramStrategy()).find(bitmap);
-List<Rectangle> rects = new RectangleFinder(new ParallelRasterStrategy(8)).find(bitmap);
+List<Rectangle> rects = new RectangleDetector(new RasterStrategy()).detect(bitmap);
+List<Rectangle> rects = new RectangleDetector(new HistogramStrategy()).detect(bitmap);
+List<Rectangle> rects = new RectangleDetector(new ParallelRasterStrategy(8)).detect(bitmap);
 ```
 
 ---

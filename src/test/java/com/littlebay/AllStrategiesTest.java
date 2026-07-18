@@ -21,7 +21,7 @@ class AllStrategiesTest {
     }
 
     private List<Rectangle> find(SearchStrategy strategy, int[][] bitmap) {
-        return new RectangleFinder(strategy).find(bitmap);
+        return new RectangleDetector(strategy).detect(bitmap);
     }
 
     @ParameterizedTest(name = "{0}")

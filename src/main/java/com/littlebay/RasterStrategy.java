@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 public class RasterStrategy implements SearchStrategy {
 
     @Override
-    public List<Rectangle> find(int[][] bitmap) {
+    public List<Rectangle> detect(int[][] bitmap) {
         int rows = bitmap.length;
         int cols = bitmap[0].length;
         return IntStream.range(0, rows)
