@@ -50,11 +50,11 @@ List<Rectangle> rects = new RectangleDetector(new ParallelRasterStrategy(8)).det
 
 ### `RasterStrategy`
 
-**Algorithm.** Scans left-to-right, top-to-bottom. At each unvisited white pixel that has black (or a boundary) above and to the left — a top-left corner — it scans right for the width, down for the height, then verifies the entire candidate area is solid white. Matched pixels are marked visited.
+**Algorithm.** Scans left-to-right, top-to-bottom. At each white pixel that has black (or a boundary) above and to the left — a top-left corner — it scans right for the width, down for the height, then verifies the entire candidate area is solid white.
 
 **Complexity.**
 - Time: O(rows × cols + Σ w·h) per rectangle found
-- Space: O(rows × cols) for the visited array
+- Space: O(1) auxiliary
 
 **Best for.** Sparse bitmaps (few white pixels, small total rectangle area) and small inputs. Overhead is proportional to white area, not total bitmap size.
 
@@ -70,7 +70,7 @@ Both are built in a single O(rows × cols) pass. The raster scan then uses these
 
 **Complexity.**
 - Time: O(rows × cols) preprocessing + O(rows × cols + Σ h) detection
-- Space: O(rows × cols) for two aux arrays + visited array
+- Space: O(rows × cols) for two aux arrays
 
 **Best for.** Theoretically benefits bitmaps with many large rectangles where the O(w·h) verification in `RasterStrategy` dominates. In practice (see benchmarks), the preprocessing cost currently exceeds the savings for typical inputs.
 
@@ -92,7 +92,7 @@ The two fixes are complementary: the Sparse Table eliminates the loop entirely; 
 
 **Complexity.**
 - Time: O(rows × cols / threads) wall-clock, plus merge sort
-- Space: O(rows × cols) per thread (visited arrays are partitioned, not shared)
+- Space: O(R) for merged results, where R = rectangles found
 
 **Best for.** Medium-to-large bitmaps on multi-core hardware. The thread pool is created once in the constructor and reused across calls, so per-call overhead is limited to task submission and result merging. Crossover against `RasterStrategy` is around 500×500 dense; gains are substantial at 2000×2000 and above.
 
