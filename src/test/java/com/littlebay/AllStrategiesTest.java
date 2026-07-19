@@ -65,6 +65,22 @@ class AllStrategiesTest {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("strategies")
+    @DisplayName("ignore rectangle which is not solid")
+    void ignoreNotSolidRectangle(SearchStrategy strategy) {
+        int[][] bitmap = {
+                {1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 0, 0, 0, 1},
+                {1, 1, 1, 0, 1, 0, 1},
+                {1, 1, 1, 1, 1, 1, 1}
+        };
+
+        List<Rectangle> rectangles = find(strategy, bitmap);
+        assertThat(rectangles.size(), is(0));
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("strategies")
     @DisplayName("detect two rectangles both touching bounds")
     void twoRectanglesBothTouchingBounds(SearchStrategy strategy) {
         int[][] bitmap = {

@@ -2,7 +2,6 @@ package com.littlebay;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class HistogramStrategy implements SearchStrategy {
@@ -21,7 +20,7 @@ public class HistogramStrategy implements SearchStrategy {
                         .filter(x -> bitmap[y][x] == 0 && RasterScanSupport.isTopLeft(bitmap, x, y))
                         .mapToObj(x -> detect(runRight, runDown, x, y)))
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     // runRight[y][x] = consecutive white pixels rightward from (x,y) inclusive

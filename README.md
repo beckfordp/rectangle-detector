@@ -108,9 +108,9 @@ mvn test
 
 Three test classes run:
 
-| Class | What it tests |
-|---|---|
-| `AllStrategiesTest` | Four correctness cases run against all three strategies (12 parameterised cases) |
+| Class | What it tests                                                                          |
+|---|----------------------------------------------------------------------------------------|
+| `AllStrategiesTest` | Five correctness cases run against all three strategies (15 parameterised cases)       |
 | `StrategyPerformanceTest` | Timing comparison across six bitmap scenarios; asserts all strategies agree on results |
 
 ---

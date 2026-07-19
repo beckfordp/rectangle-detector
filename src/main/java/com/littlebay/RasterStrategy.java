@@ -2,7 +2,6 @@ package com.littlebay;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class RasterStrategy implements SearchStrategy {
@@ -17,7 +16,7 @@ public class RasterStrategy implements SearchStrategy {
                         .filter(x -> bitmap[y][x] == 0 && RasterScanSupport.isTopLeft(bitmap, x, y))
                         .mapToObj(x -> RasterScanSupport.detect(bitmap, x, y, rows, cols)))
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
