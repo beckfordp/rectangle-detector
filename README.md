@@ -9,8 +9,8 @@ Finds all solid white rectangles in a binary bitmap (`0` = white, `1` = black).
 
 Like many problems it is both easy and difficult at the same time, depending on the detailed acceptance criteria and architectural constraints at play. 
 There was no one to ask about requirements so I made some assumptions. These functional assumptions are encapsulated in the tests. 
-Performance constraints, memory constraints and the size of the bitmap, also the sparsity or density of the rectangles were not indicated.
-Given this, the most performant implementation strategy would be a guess at best. The simplest strategy of course is a raster scan. I did
+Performance constraints, memory constraints and the size of the bitmap, also the sparsity or density of the rectangles, and the size of rectangles were not indicated.
+Given this, the most performant implementation strategy is unknown, "it depends". The simplest strategy of course is a raster scan. I did
 some research and found out that there were also other alternative strategies that might be more performant under certain circumstances.
 I decided to come up with a solution that supported multiple strategies and to benchmark each.
 
